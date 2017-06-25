@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
 
   "parser": "babel-eslint",
 
@@ -9,7 +9,7 @@
     },
 
     "plugins": [
-      "react"
+      "react",  "flowtype"
     ],
 
   "rules": {
@@ -26,6 +26,7 @@
     "jsx-quotes": ["error", "prefer-single"],
     "react/prefer-stateless-function": 0,
     "react/prefer-es6-class": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/require-default-props": 0
   }
 }

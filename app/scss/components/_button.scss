@@ -1,0 +1,46 @@
+.button, .button:hover, .button:focus {
+  border: 0;
+  outline: none;
+  width: 50%;
+  height: 50%;
+}
+
+.green, .green:hover, .green:active, .green:focus {
+  background-color: $green;
+  border-top-left-radius: 100%;
+  border-top: 16px solid $border-color;
+  border-left: 16px solid $border-color;
+  border-bottom: 8px solid $border-color;
+  border-right: 8px solid $border-color;
+  margin-bottom: 0px;
+}
+
+.yellow, .yellow:hover, .yellow:focus {
+  background-color: $yellow;
+  border-bottom-left-radius: 100%;
+  border-top: 8px solid $border-color;
+  border-left: 16px solid $border-color;
+  border-bottom: 16px solid $border-color;
+  border-right: 8px solid $border-color;
+  margin-top: 0px;
+}
+
+.blue, .blue:hover, .blue:focus {
+  background-color: $blue;
+  border-bottom-right-radius: 100%;
+  border-top: 8px solid $border-color;
+  border-left: 8px solid $border-color;
+  border-bottom: 16px solid $border-color;
+  border-right: 16px solid $border-color;
+  margin-top: 0px;
+}
+
+.red, .red:hover, .red:focus {
+  background-color: $red;
+  border-top-right-radius: 100%;
+  border-top: 16px solid $border-color;
+  border-left: 8px solid $border-color;
+  border-bottom: 8px solid $border-color;
+  border-right: 16px solid $border-color;
+  margin-bottom: 0px;
+}
