@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 
 class Controls extends Component {
   render() {
-    const { gameOn, strictMode, switchGame, startGame, turnStrictMode } = this.props;
+    const { gameOn, strictMode, count, switchGame, startGame, turnStrictMode } = this.props;
     return (
       <div className='controls'>
         <h2>Simon<span>&#174;</span></h2>
         <div className='indicators'>
           <div className='count-group'>
-            <div className='count'><span className='count-data' style={gameOn === false ? { color: 'rgb(89, 3, 26)' } : { color: 'red' } }>--</span></div>
+            <div className='count'><span className='count-data' style={Object.assign({}, gameOn === false ? { color: 'rgb(89, 3, 26)' } : { color: 'red' }, count ? {fontWeight: 'bold'} : {fontWeight: 'normal'})}>{count > 0 ? count : '--'}</span></div>
             <span>count</span>
           </div>
           <div className='start-group'>
@@ -40,6 +40,7 @@ class Controls extends Component {
 Controls.propTypes = {
   gameOn: PropTypes.bool,
   strictMode: PropTypes.bool,
+  count: PropTypes.number,
   switchGame: PropTypes.func,
   startGame: PropTypes.func,
   turnStrictMode: PropTypes.func

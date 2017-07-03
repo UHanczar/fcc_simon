@@ -7,13 +7,14 @@ import Button from './Button';
 import Controls from './Controls';
 
 const Plate = (props: Object) => {
-  const { buttons, gameOn, strictMode, onHandleClick, switchGame, startGame, turnStrictMode } = props;
+  const { buttons, gameOn, strictMode, count, onHandleClick, switchGame, startGame, turnStrictMode, currentButton } = props;
 
   return (
     <div className='plate'>
       <Controls
         gameOn={gameOn}
         strictMode={strictMode}
+        count={count}
         switchGame={switchGame}
         startGame={startGame}
         turnStrictMode={turnStrictMode}
@@ -23,6 +24,7 @@ const Plate = (props: Object) => {
           <Button
             key={buttons[i]}
             color={buttons[i]}
+            currentButton={currentButton}
             onHandleClick={onHandleClick}
           />
           )}
@@ -33,6 +35,7 @@ const Plate = (props: Object) => {
 Plate.propTypes = {
   buttons: PropTypes.arrayOf(PropTypes.string),
   gameOn: PropTypes.bool,
+  count: PropTypes.number,
   strictMode: PropTypes.bool,
   onHandleClick: PropTypes.func,
   switchGame: PropTypes.func,
