@@ -7,14 +7,17 @@ import Button from './Button';
 import Controls from './Controls';
 
 const Plate = (props: Object) => {
-  const { buttons, gameOn, strictMode, count, onHandleClick, switchGame, startGame, turnStrictMode, currentButton } = props;
+  const { buttons, gameOn, start, strictMode, count, onHandleClick, switchGame, startGame, turnStrictMode, error, winner, currentButton, removeColor } = props;
 
   return (
     <div className='plate'>
       <Controls
         gameOn={gameOn}
+        start={start}
         strictMode={strictMode}
         count={count}
+        error={error}
+        winner={winner}
         switchGame={switchGame}
         startGame={startGame}
         turnStrictMode={turnStrictMode}
@@ -26,6 +29,7 @@ const Plate = (props: Object) => {
             color={buttons[i]}
             currentButton={currentButton}
             onHandleClick={onHandleClick}
+            removeColor={removeColor}
           />
           )}
     </div>

@@ -8,7 +8,7 @@ class Button extends Component {
     this.props.onHandleClick(color);
   }
   render() {
-    const { color, currentButton } = this.props;
+    const { color, currentButton, removeColor } = this.props;
     const activeColor = (button) => {
       switch (button) {
         case 'blue':
@@ -29,7 +29,8 @@ class Button extends Component {
       <button
         className={`button ${color}`}
         style={currentButton === color ? activeColor(currentButton) : {}}
-        onClick={() => this.handleClick(color)}
+        onMouseDown={() => this.handleClick(color)}
+        onMouseUp={() => this.props.removeColor()}
       />
     );
   }

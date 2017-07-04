@@ -5,13 +5,28 @@ import PropTypes from 'prop-types';
 
 class Controls extends Component {
   render() {
-    const { gameOn, strictMode, count, switchGame, startGame, turnStrictMode } = this.props;
+    const { gameOn, start, strictMode, count, switchGame, startGame, turnStrictMode, error, winner } = this.props;
+
+    const renderCount = (counter, err, win) => {
+      let res;
+      if (err === true) {
+        res = '!!';
+      } else if (win === true) {
+        res = '$$';
+      } else if (counter === 0) {
+        res = '--';
+      } else if (counter > 0) {
+        res = counter;
+      }
+      return res;
+    }
+    // count > 0 ? count : '--'
     return (
       <div className='controls'>
         <h2>Simon<span>&#174;</span></h2>
         <div className='indicators'>
           <div className='count-group'>
-            <div className='count'><span className='count-data' style={Object.assign({}, gameOn === false ? { color: 'rgb(89, 3, 26)' } : { color: 'red' }, count ? {fontWeight: 'bold'} : {fontWeight: 'normal'})}>{count > 0 ? count : '--'}</span></div>
+            <div className='count'><span className={`count-data ${winner ? 'count-winner' : ''} ${error ? 'warning' : ''}`} style={Object.assign({}, gameOn === false ? { color: 'rgb(89, 3, 26)' } : { color: 'red' }, count ? { fontWeight: 'bold' } : { fontWeight: 'normal' })}>{ renderCount(count, error, winner) }</span></div>
             <span>count</span>
           </div>
           <div className='start-group'>

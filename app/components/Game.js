@@ -16,7 +16,10 @@ class Game extends Component {
       count: 0, // counting turns
       turns: [], // array of random turns which AI takes during the game
       playerCount: 0,
-      currentButton: undefined
+      currentButton: undefined,
+      error: false,
+      winner: false,
+      preventTurn: false
     };
 
     this.handleTurns = this.handleTurns.bind(this);
@@ -25,6 +28,9 @@ class Game extends Component {
     this.turnStrictMode = this.turnStrictMode.bind(this);
     this.randomAITurns = this.randomAITurns.bind(this);
     this.mapTurns = this.mapTurns.bind(this);
+    this.repeateMapTurns = this.repeateMapTurns.bind(this);
+    this.removeColor = this.removeColor.bind(this);
+    this.addSound = this.addSound.bind(this);
   }
 
   state: {
@@ -35,23 +41,24 @@ class Game extends Component {
     player: boolean,
     count: number,
     playerCount: number,
-    turns: Array<string>
+    turns: Array<string>,
+    error: boolean,
+    winner: boolean,
+    preventTurn: boolean,
+    currentButton: undefined | boolean
   };
 
   componentDidUpdate(prevProp, prevState) {
-    const { player, gameOn, start, count } = this.state;
+    const { player, gameOn, start, count, turns, playerCount } = this.state;
     if (player !== prevState.player && gameOn && start) {
         if (player === false) {
           this.randomAITurns();
           // console.log('Turn is done!!!');
         } else {
-          console.log('Timer is cleared!!!');
-          // clearTimeout(this.turn);
-          // clearInterval(this.makeTurns);
+          // console.log('Timer is cleared!!!');
         }
     }
   }
-
 
   handleTurns: Function;
   switchGame: Function;
@@ -59,85 +66,43 @@ class Game extends Component {
   turnStrictMode: Function;
   randomAITurns: Function;
   mapTurns: Function;
+  repeateMapTurns: Function;
+  removeColor: Function;
+  addSound: Function;
 
-  // handleTurns(color: string) {
-  //   const { gameOn, turns, buttons } = this.state;
-  //   if (gameOn) {
-  //     console.log(`New Turn is done ${color}`);
-  //     const newTurns = turns.slice();
-  //     newTurns.push(color);
-  //     console.log(this.state.turns);
-  //     this.setState(() => {
-  //       return {
-  //         turns: newTurns
-  //       };
-  //     });
-  //   }
-  // }
+  removeColor() {
+    this.setState({
+      currentButton: undefined
+    });
+  }
 
-  handleTurns(color: string) {
-    const { gameOn, turns, buttons, count, player, playerCount } = this.state;
-    // bacause every time on click we create counter === 0;
-    if (gameOn && player) {
-      const newTurns = turns.slice();
-      let counter = playerCount;
-
-      if (color !== turns[counter]) {
-        console.log('Damn!!!!!');
-        this.repeateMapTurns(newTurns, 0);
-      }
-
-      counter++;
-      this.setState({
-        playerCount: counter,
-      });
-      console.log('upper counter', counter);
-      if (counter === turns.length) {
-        console.log(counter);
-        this.setState({
-          player: !this.state.player,
-          playerCount: 0
-        });
-        // counter = 0;
-      }
-
-
-
-
-
-      // if (color !== turns[counter]) {
-      //   console.log('Damn!!!!!');
-      // }
-      //
-      // console.log(newTurns[counter]);
-      //
-      // counter += 1;
-      // console.log(counter, newTurns.length);
-      //
-      // if (counter === newTurns.length) {
-      //   const newPlayer = !player;
-      //   this.setState({
-      //     player: newPlayer
-      //   });
-      //
-      //   counter = 0;
-      //   // console.log(counter);
-      // }
+  addSound(color: string) {
+    switch (color) {
+      case 'yellow':
+        return 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3';
+      case 'red':
+        return 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3';
+      case 'green':
+        return 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3';
+      case 'blue':
+        return 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3';
+      // no default
     }
   }
 
   mapTurns(turns: Array<string>, index: number) {
     const { player } = this.state;
     this.makeTurns = setInterval(() => {
-
       if (index < turns.length) {
-        console.log('turn', turns[index]);
+        // console.log('turn', turns[index]);
         const currentButton = turns[index];
+        const audio = new Audio(this.addSound(currentButton));
+        audio.play();
         this.setState({
           currentButton: currentButton
         });
         index += 1;
-        setTimeout(() => this.setState({currentButton: undefined}), 1000);
+        setTimeout(() => this.setState({ currentButton: undefined }), 1000);
       }
     }, 1500);
 
@@ -150,31 +115,33 @@ class Game extends Component {
   }
 
   repeateMapTurns(turns: Array<string>, index: number) {
-    this.makeTurns = setInterval(() => {
+    this.makeRepeatTurns = setInterval(() => {
 
       if (index < turns.length) {
-        console.log('turn', turns[index]);
+        // console.log('turn', turns[index]);
         const currentButton = turns[index];
+        const audio = new Audio(this.addSound(currentButton));
+        audio.play();
         this.setState({
           currentButton: currentButton
         });
         index += 1;
-        setTimeout(() => this.setState({currentButton: undefined}), 1000);
+        setTimeout(() => this.setState({ currentButton: undefined }), 1000);
       }
     }, 1500);
 
     this.clearTurns = setTimeout(() => {
       this.setState({
-        currentButton: undefined
+        currentButton: undefined,
+        preventTurn: false
       });
     }, (turns.length * 1500) + 1000);
   }
 
   randomAITurns() {
-    const { start } = this.state;
+    const { start, winner } = this.state;
     const interval = this.state.count > 10 ? 1500 : 3000;
-    if (start) {
-      // this.turn = setTimeout(() => {
+    if (start && !winner) {
       const { turns, buttons, player, count } = this.state;
       const newCount = count + 1;
       this.setState({
@@ -186,7 +153,7 @@ class Game extends Component {
       // console.log(randomColorIndex, newColor);
 
       newTurns.push(newColor);
-      console.log('newTurns: ', newTurns);
+      // console.log('newTurns: ', newTurns);
 
       this.mapTurns(newTurns, 0);
 
@@ -194,16 +161,126 @@ class Game extends Component {
 
       this.setState(() => {
         return {
-          turns: newTurns,
-          // player: newPlayer
+          turns: newTurns
         };
       });
-      // }, interval);
+    }
+  }
+
+  handleTurns(color: string) {
+    const { gameOn, turns, buttons, strictMode, count, player, playerCount, currentButton, preventTurn } = this.state;
+    // bacause every time on click we create counter === 0;
+    if (gameOn && player && !preventTurn) {
+      clearInterval(this.checkTimeTurn);
+      const newTurns = turns.slice();
+      let counter = playerCount;
+      clearInterval(this.makeRepeatTurns);
+
+      this.setState({
+        currentButton: color
+      });
+
+      const audio = new Audio(this.addSound(color));
+      audio.play();
+
+      if (color !== turns[counter]) {
+        this.setState({
+          preventTurn: true
+        });
+
+        if (strictMode === false) {
+          // console.log('Damn!!!!!');
+          counter = 0;
+          const audioError = new Audio('http://www.pacdv.com/sounds/interface_sound_effects/beep-6.wav');
+          audioError.play();
+          this.setState({
+            playerCount: counter,
+            error: true
+          });
+          this.removeError = setTimeout(() => {
+            this.setState({
+              error: false
+            });
+            this.repeateMapTurns(newTurns, 0);
+          }, 2000);
+        } else {
+          counter = 0;
+          const audioError = new Audio('http://www.pacdv.com/sounds/interface_sound_effects/beep-6.wav');
+          audioError.play();
+          this.setState({
+            error: true
+          });
+          this.removeError = setTimeout(() => {
+            this.setState({
+              player: true,
+              count: 0,
+              turns: [],
+              playerCount: 0,
+              currentButton: undefined,
+              error: false,
+              start: false,
+              winner: false,
+              preventTurn: false
+            });
+          }, 2000);
+        }
+      } else {
+        counter++;
+        this.setState({
+          playerCount: counter,
+        });
+        // console.log('upper counter', counter);
+
+        if (playerCount === 19) {
+          const victorySound = turns[turns.length - 1];
+          // console.log(victorySound);
+          this.setState({
+            winner: true
+          });
+          this.setWinner = setInterval(() => {
+            const newSound = new Audio(this.addSound(victorySound));
+            newSound.play();
+            this.setState({
+              currentButton: victorySound
+            });
+
+            this.removeWinner = setTimeout(() => {
+              this.setState({
+                currentButton: undefined,
+              });
+            }, 400);
+          }, 500);
+
+          setTimeout(() => {
+            clearInterval(this.setWinner);
+            this.setState({
+              player: true,
+              count: 0,
+              turns: [],
+              playerCount: 0,
+              currentButton: undefined,
+              error: false,
+              start: false,
+              winner: false
+            });
+          }, 5000);
+        }
+
+
+        if (counter === turns.length) {
+          // console.log(counter);
+          this.setState({
+            player: !this.state.player,
+            playerCount: 0
+          });
+          // counter = 0;
+        }
+      }
     }
   }
 
   switchGame() {
-    console.log('Game is switched!');
+    // console.log('Game is switched!');
     const { gameOn } = this.state;
     const newGameOn = !gameOn;
 
@@ -214,11 +291,17 @@ class Game extends Component {
         player: true,
         count: 0,
         turns: [],
-        playerCount: 0
+        playerCount: 0,
+        currentButton: undefined,
+        error: false,
+        winner: false,
+        preventTurn: false
       });
 
       clearInterval(this.makeTurns);
       clearTimeout(this.clearTurns);
+      clearInterval(this.setWinner);
+      clearInterval(this.makeRepeatTurns);
     }
 
     this.setState({
@@ -246,38 +329,43 @@ class Game extends Component {
           turns: [],
           playerCount: 0
         });
-        console.log('Start is false');
+        // console.log('Start is false');
         clearInterval(this.makeTurns);
         clearTimeout(this.clearTurns);
+        clearInterval(this.setWinner);
+        clearInterval(this.makeRepeatTurns);
       }
     }
   }
 
   turnStrictMode() {
-    const { gameOn, strictMode } = this.state;
-    if (gameOn) {
-      console.log('StrictMode is available!');
+    const { gameOn, start, strictMode } = this.state;
+    if (gameOn && !start) {
+      // console.log('StrictMode is available!');
       this.setState({
         strictMode: !strictMode
       });
-      console.log(this.state.strictMode);
     }
   }
 
   render() {
-    const { buttons, gameOn, strictMode, count, currentButton } = this.state;
+    const { buttons, gameOn, start, strictMode, count, error, winner, currentButton } = this.state;
     return (
       <div className='game'>
         <Plate
           buttons={buttons}
           gameOn={gameOn}
+          start={start}
           strictMode={strictMode}
           count={count}
+          error={error}
+          winner={winner}
+          currentButton={currentButton}
           onHandleClick={this.handleTurns}
           switchGame={this.switchGame}
           startGame={this.startGame}
           turnStrictMode={this.turnStrictMode}
-          currentButton={currentButton}
+          removeColor={this.removeColor}
         />
       </div>
     );

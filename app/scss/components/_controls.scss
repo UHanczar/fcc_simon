@@ -50,6 +50,7 @@
       width: 60px;
       height: 45px;
       border-radius: 15%;
+      border: 3px solid $border-color;
 
       .count-data {
         font-weight: 500;
@@ -82,7 +83,6 @@
     }
 
     .strictmode {
-      border: 0;
       outline: none;
       background-color: $yellow;
       width: 30px;
@@ -129,4 +129,28 @@
       }
     }
   }
+}
+
+@keyframes warning {
+  0%   {color: red;}
+  50%  {color: rgb(89, 3, 26);}
+  100% {color: red;}
+}
+
+.warning {
+  animation-name: warning;
+  animation-duration: .5s;
+  animation-iteration-count: 2;
+}
+
+@keyframes winner {
+  0%   {color:red;}
+  50%  {color: rgb(89, 3, 26);}
+  100% {color:red;}
+}
+
+.count-winner {
+  animation-name: winner;
+  animation-duration: .5s;
+  animation-iteration-count: 12;
 }
