@@ -6,7 +6,7 @@ class Container extends Component {
   render() {
     return (
       <div>
-        <h1>Free Code Camp</h1>
+        <h1>Simon Game</h1>
         <Game />
       </div>
     );

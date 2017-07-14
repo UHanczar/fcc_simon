@@ -54,7 +54,7 @@ export default {
   },
   plugins: [
     // extractCSS,
-    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: 'app/index.html'
     })
