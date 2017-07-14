@@ -15,7 +15,7 @@ class Game extends Component {
       player: true, // if false AI turn, else player
       count: 0, // counting turns
       turns: [], // array of random turns which AI takes during the game
-      playerCount: 0,
+      playerCount: 0, // number of players' turns
       currentButton: undefined,
       error: false,
       winner: false,
