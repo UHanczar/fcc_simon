@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "My pomodoro-clock in FreeCodeCamp chalenge",
   "main": "App.jsx",
-  "repository": "https://github.com/UHanczar/fcc_simon",
+  "repository": "https://github.com/UHanczar/fcc_simon.git",
   "scripts": {
+    "start": "./node_modules/.bin/babel-node server.js",
     "test": "eslint src",
     "clear": "del-cli public -f",
     "watch": "webpack --watch",
@@ -12,8 +13,7 @@
     "prod:build": "webpack -p",
     "bundle": "yarn run build",
     "httpserver": "http-server ./ -a localhost -p 8000 -c-1 -i",
-    "server": "webpack-dev-server --open --inline --hot",
-    "start": "./node_modules/.bin/babel-node ./app/server.js"
+    "server": "webpack-dev-server --open --inline --hot"
   },
   "author": "U. Hanchar",
   "license": "MIT",

@@ -9,13 +9,13 @@ const extractCSS = new ExtractTextPlugin('./css/style.bundle.css');
 export default {
   // context: __dirname,
   entry: [
-    // 'babel-polyfill',
+    'babel-polyfill',
     'script-loader!jquery/dist/jquery.min.js',
     'script-loader!foundation-sites/dist/js/foundation.min.js',
     path.resolve(__dirname, './app/App.js')
   ],
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, './public'),
     filename: 'bundle.js'
   },
   devServer: {
@@ -51,9 +51,9 @@ export default {
   plugins: [
     // extractCSS,
     new webpack.HotModuleReplacementPlugin(),
-    // new HtmlWebpackPlugin({
-    //   template: 'public/index.html'
-    // })
+    new HtmlWebpackPlugin({
+      template: 'app/index.html'
+    })
   ],
 
   devtool: 'cheap-module-eval-source-map',
