@@ -12,7 +12,7 @@ export default {
     // 'babel-polyfill',
     'script-loader!jquery/dist/jquery.min.js',
     'script-loader!foundation-sites/dist/js/foundation.min.js',
-    path.join(__dirname, 'app/App.js')
+    './app/App.js'
   ],
   output: {
     path: path.join(__dirname, 'public'),
@@ -52,7 +52,7 @@ export default {
     // extractCSS,
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: 'app/index.html'
     })
   ],
 
