@@ -7,7 +7,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 const extractCSS = new ExtractTextPlugin('./css/style.bundle.css');
 
 export default {
-  context: path.resolve(__dirname, 'app'),
+  context: path.resolve(__dirname, './app'),
   entry: [
     'babel-polyfill',
     'script-loader!jquery/dist/jquery.min.js',
