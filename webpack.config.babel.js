@@ -1,64 +1,47 @@
 import webpack from 'webpack';
 import path from 'path';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-// at the end uncomment extractCSS for compiling css file;
-const extractCSS = new ExtractTextPlugin('./css/style.bundle.css');
 
 export default {
-  // context: __dirname,
   entry: [
-    'babel-polyfill',
     'script-loader!jquery/dist/jquery.min.js',
-    'script-loader!foundation-sites/dist/js/foundation.min.js',
-    path.resolve(__dirname, './app/App.js')
+     path.resolve(__dirname, './app/App.js')
+  ],
+  externals: {
+    jquery: 'jQuery',
+    'cheerio': 'window',
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
+  // ProvidePlugin loading nessesasy modules when they are required
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    }),
   ],
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
   },
-  devServer: {
-    inline: true,
-    contentBase: './public',
-    port: 3000,
-    historyApiFallback: true
+  resolve: {
+    alias: {
+      jQuery: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+      moment: path.resolve(__dirname, 'node_modules/moment/moment.js')
+    },
+    modules: [
+      "node_modules",
+      path.resolve(__dirname, "app/components")
+    ],
+    extensions: ['.js', '.jsx']
   },
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'react-hot-loader!babel-loader'
-    },
-    {
-      test: /\.json$/,
-      loader: 'json-loader'
-    },
-    {
-      test: /\.scss$/,
-      loader: [
-        'style-loader',
-        'css-loader',
-        'sass-loader'
-      ],
-      // in case of creating css bundle file
-      // use: ExtractTextPlugin.extract({
-      //   fallback: 'style-loader',
-      //   use: ['css-loader', 'sass-loader']
-      // })
-    }]
+    loaders: [
+      {
+        loader: 'babel-loader',
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/
+      }
+    ]
   },
-  plugins: [
-    // extractCSS,
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'app/index.html'
-    })
-  ],
-
-  devtool: 'cheap-module-eval-source-map',
-
-  resolve: {
-    extensions: ['.js', '.jsx']
-  }
+  devtool: 'cheap-module-eval-source-map'
 };
