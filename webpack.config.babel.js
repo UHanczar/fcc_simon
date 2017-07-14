@@ -53,10 +53,7 @@ export default {
     },
     {
       test: /\.(jpe?g|png|gif|svg)$/i,
-      loader: [
-        'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
-        'image-webpack-loader'
-      ]
+      loader: 'file-loader'
     }]
   },
   plugins: [
