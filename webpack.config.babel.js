@@ -18,6 +18,10 @@ export default {
     path: path.resolve(__dirname, './public'),
     filename: 'bundle.js'
   },
+  externals: {
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
   devServer: {
     inline: true,
     contentBase: './public',
