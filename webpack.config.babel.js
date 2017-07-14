@@ -52,7 +52,7 @@ export default {
     // extractCSS,
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: 'app/index.html'
+      template: 'public/index.html'
     })
   ],
 
