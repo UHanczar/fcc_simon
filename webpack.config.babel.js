@@ -51,9 +51,9 @@ export default {
   plugins: [
     // extractCSS,
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'public/index.html'
-    })
+    // new HtmlWebpackPlugin({
+    //   template: 'public/index.html'
+    // })
   ],
 
   devtool: 'cheap-module-eval-source-map',
