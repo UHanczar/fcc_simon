@@ -50,6 +50,13 @@ export default {
       //   fallback: 'style-loader',
       //   use: ['css-loader', 'sass-loader']
       // })
+    },
+    {
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      loader: [
+        'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+        'image-webpack-loader'
+      ]
     }]
   },
   plugins: [
