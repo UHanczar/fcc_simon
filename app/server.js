@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 });
 
 // telling, which folder we wanna run
-app.use(express.static('./../public'));
+app.use(express.static('../public/'));
 
 // starting the server using port and callback function
 app.listen(PORT, () => {
