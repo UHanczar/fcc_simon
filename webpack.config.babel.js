@@ -15,9 +15,8 @@ export default {
     path.resolve(__dirname, './app/App.js')
   ],
   output: {
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
+    path: path.resolve(__dirname, './public'),
+    filename: 'bundle.js'
   },
   externals: {
     'react/lib/ExecutionEnvironment': true,
